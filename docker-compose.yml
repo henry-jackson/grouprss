@@ -1,0 +1,31 @@
+version: '3.7'
+
+services:
+  db:
+    image: postgres:12-alpine
+    container_name: postgres
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_PASSWORD: pw
+      POSTGRES_USER: user
+      POSTGRES_DB: db
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    restart: always
+
+  api:
+    build: .
+    ports:
+      - 8080:8080
+    env_file:
+      - .env
+    depends_on:
+      - db
+    links:
+      - db
+    command:
+      bash -c "diesel setup && cargo run"
+
+volumes:
+  pgdata:
