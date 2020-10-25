@@ -6,6 +6,7 @@ use uuid::Uuid;
 #[derive(Serialize, Deserialize)]
 pub struct Feed {
     pub id: Uuid,
+    pub user_id: Uuid,
     pub name: String,
     pub source_ids: Vec<Uuid>,
 }
